@@ -13,6 +13,11 @@ if (LINE.length < 1 || LINE.length > MAX_CHARS) {
   throw new Error(`entry must be 1-${MAX_CHARS} chars, got ${LINE.length}`);
 }
 
+// The brief demands a single line: refuse any line break outright.
+if (LINE.includes("\n") || LINE.includes("\r")) {
+  throw new Error("entry must be a single line");
+}
+
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), LINE, "utf8");
